@@ -13,6 +13,18 @@
     <% } %> -->
 
     <h1><%=tempday%></h1>
+   
+    <ul>
+        
+     <% for(let i=0;i<newListItems.length ;i++){ %>
+         
+         <li><%=newListItems[i]%></li> 
+      <% }%>
+    </ul>
+    <form  class="" method ="post">
+        <input type ="text" name="newItem">
+        <button type="submit"> Add Task </button>
+    </form>
 </body>
 
 </html>

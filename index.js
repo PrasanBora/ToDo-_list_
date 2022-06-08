@@ -1,10 +1,13 @@
 
 const express =require("express");
 const bodyParser =require("body-parser");
-
+var items=[];
 const app =express();
-
+ 
 app.set('view engine', 'ejs');
+app.use(bodyParser.urlencoded({extended:true})); 
+
+
 
 app.get("/", function (req ,res ){
     var today=new Date();
@@ -42,8 +45,19 @@ app.get("/", function (req ,res ){
     var day = today.toLocaleDateString("en-US",options);
 
     
-    res.render("list",{tempday:day})
+    res.render("list",{tempday:day , newListItems:items})
 });
+  
+// to handel post request 
+
+app.post("/",function(req,res){
+    // console.log(req.body.newItem);
+     var item=req.body.newItem;
+
+    items.push(item);
+    res.redirect("/");
+})
+ 
 
 app.listen(3000, function (){
 

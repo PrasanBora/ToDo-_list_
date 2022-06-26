@@ -26,14 +26,13 @@
             
           <div class="item">
               <input type="checkbox"> 
-               
-  
+
               <p><%=newListItems[i]%></p>
 
-
-              <span     id = <%= `id${i}`%> onclick= deleteItem(this) class="material-symbols-outlined  delete">
-                delete 
-              </span>
+               <span   id = <%= `id${i}`%> onclick= deleteItem(<%=i%>)  class="material-symbols-outlined  delete">
+                   delete 
+               </span>
+              
           </div>  
         
        <%}%> 
@@ -47,12 +46,39 @@
 </div>
 
 <script>
-    function deleteItem(e)
+
+    let list={};
+
+    function deleteItem(i)
     {
-        console.log(e.id);
-        document.querySelector(`#${e.id}`).parentElement.remove();
+        console.log(i);
+        document.querySelector(`#id${i}`).parentElement.remove();
+        
+        // console.log('<%-newListItems.length%>');
+          let copy ='<%- newListItems%>';
+          console.log(typeof copy);
+
+          copy=copy.split(",");
+        //   console.log(typeof copy);
+        // '<%- newListItems%>'=deleteindex(copy, i); ----------------
+        //  console.log( deleteindex(copy, i) );
+        console.log( copy);
+        
     }
-     
+
+    function deleteindex(arr,index)
+    {   let i=0;
+         for(let j=0; j<arr.length; j++) 
+         { 
+            if(j !=index )
+            {  list[i]=arr[j];
+               i++;
+            //    console.log('<%- newListItems%>')
+            } 
+         }
+         return list;
+     }
+    
 </script>
 </body>
 

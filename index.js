@@ -55,13 +55,13 @@ app.post("/",function(req,res){
     // console.log(req.body.newItem);
      var item=req.body.newItem;
 
-    items.push(item);
+    items.push(item);  
     res.redirect("/");
 })
  
 
 app.listen(process.env.PORT||3000, function (){
 
-    console.log("Server staterted ");
+    console.log("Server started ");
 
 });

@@ -11,7 +11,9 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended:true})); 
 app.use(express.static('public'));
 
-mongoose.connect("mongodb://localhost:27017/to_dolistDB",{useNewUrlParser:true});
+
+mongoose.connect("mongodb+srv://prasan:Prasan23@tododb.fughxxu.mongodb.net/todolistdb",{useNewUrlParser:true});
+// mongodb+srv://prasan:<password>@tododb.fughxxu.mongodb.net/?retryWrites=true&w=majority
 
 const itemsSchema={
     name:String

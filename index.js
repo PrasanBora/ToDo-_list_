@@ -7,7 +7,6 @@ const { stringify } = require("querystring");
 // var items=[];
 const app =express();
 
-
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended:true})); 
 app.use(express.static('public'));
@@ -28,7 +27,12 @@ const item3=new Item ({ name:"Hope you like it "});
 
 const defaultItems=[item1,item2,item3];
 
+const listSchema ={
+    name:String,
+    items:[itemsSchema]
+};
 
+const List =mongoose.model("List",listSchema)
 app.get("/", function (req ,res ){
   
     var today=new Date();
@@ -49,13 +53,39 @@ app.get("/", function (req ,res ){
             });
             res.redirect("/");
         }
-        else 
+        else  
         res.render("list",{tempday:day , newListItems:foundItems})
     })
-
-   
 });
   
+app.get("/:customListName",function(req,res){
+    // console.log(req.params.customListName)
+     const customListName=req.params.customListName;
+
+     List.findOne({name:customListName},function(err,foundList){
+        if(!err)
+        {
+            if(!foundList)
+            {
+                const list =new List 
+                 ({
+                    name:customListName,
+                    items:defaultItems
+                 });
+                 list.save();
+                 res.redirect("/"+customListName);
+                // console.log("Doesn`t exist !");
+            }
+            else 
+            {
+                res.render("list",{tempday:foundList.name , newListItems:foundList.items})
+                // console.log("Exists");
+            }
+            
+        }
+     })
+    
+})
 // to handel post request 
 
 app.post("/",function(req,res){

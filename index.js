@@ -35,7 +35,7 @@ app.get("/", function (req ,res ){
     const options = { weekday: 'long',  month: 'long', day: 'numeric' };
 
     Item.find({},function(err,foundItems){
-        console.log(foundItems);
+        // console.log(foundItems);
 
         var day = today.toLocaleDateString("en-US",options);
     
@@ -66,10 +66,23 @@ app.post("/",function(req,res){
         name:itemName
      }); 
      item.save();
-     res.redirect("/");
-     
+     res.redirect("/"); 
 })
- 
+
+app.post("/delete",function(req,res)
+{
+    const checkedItemsId =req.body.checkbox;
+
+    Item.findByIdAndRemove(checkedItemsId, function (err){
+        if(err)
+        {console.log(err);}
+         else {
+            console.log("Sucessfully deleted");
+            res.redirect("/");
+         }
+    })
+});
+  
 
 app.listen(process.env.PORT||3000, function (){
 

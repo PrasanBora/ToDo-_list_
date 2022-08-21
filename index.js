@@ -32,16 +32,16 @@ const listSchema ={
     items:[itemsSchema]
 };
 
+var today=new Date();
+    const options = { weekday: 'long',  month: 'long', day: 'numeric' };
+var day = today.toLocaleDateString("en-US",options);
+
 const List =mongoose.model("List",listSchema)
 app.get("/", function (req ,res ){
   
-    var today=new Date();
-    const options = { weekday: 'long',  month: 'long', day: 'numeric' };
-
     Item.find({},function(err,foundItems){
         // console.log(foundItems);
 
-        var day = today.toLocaleDateString("en-US",options);
     
         if(foundItems.length==0)
         {
@@ -54,7 +54,7 @@ app.get("/", function (req ,res ){
             res.redirect("/");
         }
         else  
-        res.render("list",{tempday:day , newListItems:foundItems})
+        res.render("list",{listTittle:day , newListItems:foundItems})
     })
 });
   
@@ -78,7 +78,7 @@ app.get("/:customListName",function(req,res){
             }
             else 
             {
-                res.render("list",{tempday:foundList.name , newListItems:foundList.items})
+                res.render("list",{listTittle:foundList.name , newListItems:foundList.items})
                 // console.log("Exists");
             }
             
@@ -91,12 +91,25 @@ app.get("/:customListName",function(req,res){
 app.post("/",function(req,res){
     // console.log(req.body.newItem);
      const itemName=req.body.newItem;
+     const listName=req.body.list;
 
      const item= new Item ({
         name:itemName
      }); 
-     item.save();
-     res.redirect("/"); 
+
+     if(listName==day)
+      {
+        item.save();
+        res.redirect("/"); 
+      }
+     else {
+        List.findOne({name:listName},function(err,foundList){
+            foundList.items.push(item);
+            foundList.save();
+            res.redirect("/" +listName);
+        })
+     }
+     
 })
 
 app.post("/delete",function(req,res)

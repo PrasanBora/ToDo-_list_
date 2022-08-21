@@ -8,36 +8,20 @@
 </head>
 <body>
 
-    <!-- <% if(tempday === "Saturday" || tempday === "Sunday" ) { %>
-        <h1 style="color:rgb(22, 130, 188)" > <%=tempday%> To Do List </h1> 
-    <% } else { %>
-        <h1 style="color:blue" > <%=tempday%> To Do List </h1> 
-    <% } %> -->
-
-
    <div class="box" id="heading">  
       <h1 ><%=tempday%></h1>
     </div>
     
     <div class="box ">
         
-        
-        <% for(let i=0;i<newListItems.length ;i++){ %>
-            
+        <% newListItems.forEach(function(item){ %>
           <div class="item">
               <input type="checkbox"> 
-
-              <p><%=newListItems[i]%></p>
-
-               <span   id = <%= `id${i}`%> onclick= deleteItem(<%=i%>)  class="material-symbols-outlined  delete">
-                   delete 
-               </span>
-              
+              <p><%= item.name%></p>
+               
           </div>  
-        
-       <%}%> 
+       <%})%> 
 
-   
       <form  class="item" method ="post">
          <input type ="text" name="newItem" placeholder="New Task " autocomplete="off" required>
          <button type="submit"> + </button>
@@ -45,40 +29,7 @@
      
 </div>
 
-<script>
 
-    let list={};
-
-    function deleteItem(i)
-    {
-        console.log(i);
-        document.querySelector(`#id${i}`).parentElement.remove();
-        
-        // console.log('<%-newListItems.length%>');
-          let copy ='<%- newListItems%>';
-          console.log(typeof copy);
-
-          copy=copy.split(",");
-        //   console.log(typeof copy);
-        '<%- newListItems%>'=copy;
-         console.log( deleteindex(copy, i) );
-        console.log( copy);
-        
-    }
-
-    function deleteindex(arr,index)
-    {   let i=0;
-         for(let j=0; j<arr.length; j++) 
-         { 
-            if(j !=index )
-            {  list[i]=arr[j];
-               i++;
-            //    console.log('<%- newListItems%>')
-            } 
-         }
-         return list;
-     }
-    
 </script>
 </body>
 
